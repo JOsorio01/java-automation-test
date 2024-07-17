@@ -1,0 +1,22 @@
+version: '3'
+services:
+  vendor-portal:
+    image: josorio001/selenium-docker
+    environment:
+      - BROWSER=${BROWSER}
+      - HUB_HOST=hub
+      - THREAD_COUNT=3
+      - TEST_SUITE=vendor-portal
+    volumes:
+      - ./output/vendor-portal:/home/selenium-docker/test-output
+      - ./test-data/vendor-portal:/home/selenium-docker/test-data/vendor-portal
+  flight-reservation:
+    image: josorio001/selenium-docker
+    environment:
+      - BROWSER=${BROWSER}
+      - HUB_HOST=hub
+      - THREAD_COUNT=4
+      - TEST_SUITE=flight-reservation
+    volumes:
+      - ./output/flight-reservation:/home/selenium-docker/test-output
+      - ./test-data/flight-reservation:/home/selenium-docker/test-data/flight-reservation
