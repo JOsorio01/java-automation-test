@@ -11,7 +11,7 @@ pipeline {
 
         stage('Build Image') {
             steps {
-                sh "docker build -t josorio001/selenium-docker ."
+                sh "docker build -t josorio001/selenium-docker:latest ."
             }
         }
 
@@ -21,13 +21,16 @@ pipeline {
             }
             steps {
                 sh 'echo ${DOCKER_HUB_PSW} | docker login -u ${DOCKER_HUB_USR} --password-stdin'
-                sh "docker push josorio001/selenium-docker"
+                sh "docker push josorio001/selenium-docker:latest"
+                sh "docker tag josorio001/selenium-docker josorio001/selenium-docker:${env.BUILD_NUMBER}"
+                sh "docker push josorio001/selenium-docker:${env.BUILD_NUMBER}"
             }
         }
     }
 
     post {
         always {
+            sh "docker system prune -f"
             sh "docker logout"
         }
     }
